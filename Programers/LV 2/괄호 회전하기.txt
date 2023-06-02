@@ -1,0 +1,44 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String s) {
+        int answer = 0;
+        for(int i = 0 ; i < s.length() ; i++) {
+            String curStr = rotateString(s, i);
+            if(check(curStr)) answer++;
+        }
+        return answer;
+    }
+    
+    public boolean check(String str) {
+        Stack<Character> stack = new Stack<>();
+        
+        for(int i = 0 ; i < str.length() ; i++) {
+            Character curChar = str.charAt(i);
+            if(curChar == '(' || curChar == '[' || curChar == '{')
+                stack.push(curChar);
+            
+            else {
+                if(!stack.isEmpty()) {
+                    if(curChar == ')') popChar(stack, '(');
+                    else if(curChar == ']') popChar(stack, '[');
+                    else if(curChar == '}') popChar(stack, '{');
+                }
+                
+                else {
+                    stack.push(curChar);
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+    
+    public String rotateString(String str, int i) {
+        String returnString = str.substring(i);
+        return returnString + str.substring(0, i);
+    }
+    
+    public void popChar(Stack<Character> stack, char curChar) {
+        if(stack.peek() == curChar) stack.pop();
+    }
+}
